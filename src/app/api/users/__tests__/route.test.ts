@@ -1,20 +1,20 @@
-import {describe, expect, test, beforeAll, afterAll} from "vitest";
+import {afterAll, describe, expect, test} from "vitest";
 import {GET, POST} from "@/app/api/users/route";
 import {NextRequest} from "next/server";
-import { doc, getDoc } from "firebase/firestore";
+import {doc, getDoc} from "firebase/firestore";
 import {db, firebaseEmulator} from "@/lib/firebase";
 
 // firebaseApps previously initialized using initializeApp()
 firebaseEmulator()
 describe('Users API', () => {
-    // afterAll(async () => {
-    //     // Clean up Firestore after tests
-    //         await fetch("http://localhost:8080/emulator/v1/projects/sales-web-dashboard/databases/(default)/documents",
-    //             {
-    //                 method: 'DELETE'
-    //             })
-    // }
-    // )
+    afterAll(async () => {
+        // Clean up Firestore after tests
+            await fetch("http://localhost:8080/emulator/v1/projects/sales-web-dashboard/databases/(default)/documents",
+                {
+                    method: 'DELETE'
+                })
+    }
+    )
     test('GET /api/users should return 400 if user ID is not provided', async () => {
         const request = new NextRequest(`http://localhost:8080/api/users`);
         const response = await GET(request);

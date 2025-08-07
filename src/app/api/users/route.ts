@@ -1,6 +1,6 @@
-import { NextRequest } from 'next/server';
+import {NextRequest} from 'next/server';
 import {collection, doc, getDoc, setDoc} from "@firebase/firestore";
-import { db } from '@/lib/firebase';
+import {db} from '@/lib/firebase';
 import Owner from "@/app/api/users/owner";
 
 const usersRef = collection(db, 'users')
@@ -15,6 +15,12 @@ export async function GET(request: NextRequest) {
         });
     }
     const userId = searchParams.get('user');
+    if (!userId) {
+        return new Response(JSON.stringify({ error: 'User ID is required' }), {
+            status: 400,
+            headers: { 'Content-Type': 'application/json' }
+        });
+    }
     const docRef = doc(usersRef, userId);
     const users = await getDoc(docRef);
     if (!users.exists()) {

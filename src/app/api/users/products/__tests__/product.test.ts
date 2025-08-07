@@ -1,4 +1,4 @@
-import {describe, test, expect, vi} from "vitest";
+import {describe, expect, test} from "vitest";
 import Product from "@/app/api/users/products/product";
 
 describe('Product', () => {
@@ -21,5 +21,17 @@ describe('Product', () => {
             name: "Test Product",
             owner: "Test Owner"
         });
+    });
+    
+    test("should create a product from JSON", () => {
+        const json = {
+            id: "123e4567-e89b-12d3-a456-426614174000",
+            name: "Test Product",
+            owner: "Test Owner"
+        };
+        const product = Product.fromJSON(json);
+        expect(product.getId()).toBe(json.id);
+        expect(product.getName()).toBe(json.name);
+        expect(product.getOwner()).toBe(json.owner);
     });
 });
