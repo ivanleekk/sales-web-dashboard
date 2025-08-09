@@ -1,5 +1,5 @@
 import {describe, expect, test} from "vitest";
-import Product from "@/app/api/users/products/product";
+import Product from "@/app/api/products/product";
 
 describe('Product', () => {
     test("should create a product with a name and owner", () => {

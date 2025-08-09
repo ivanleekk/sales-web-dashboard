@@ -12,7 +12,7 @@ vi.mock("@/app/api/product/product", () => {
         }),
     };
 });
-const Product = (await import("@/app/api/users/products/product")).default;
+const Product = (await import("@/app/api/products/product")).default;
 
 
 describe('Owner', () => {

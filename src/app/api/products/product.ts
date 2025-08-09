@@ -1,11 +1,12 @@
 import {randomUUID} from "node:crypto";
+import Owner from "@/app/api/users/owner";
 
 export default class Product {
     id: `${string}-${string}-${string}-${string}-${string}`;
     name: string;
-    owner: string;
+    owner: Owner;
     
-    constructor(name: string, owner: string) {
+    constructor(name: string, owner: Owner) {
         this.id = randomUUID();
         this.name = name;
         this.owner = owner;
@@ -27,7 +28,7 @@ export default class Product {
         return this.name;
     }
     
-    getOwner(): string {
+    getOwner(): Owner {
         return this.owner;
     }
     

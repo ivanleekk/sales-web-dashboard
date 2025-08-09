@@ -1,5 +1,5 @@
 import {afterAll, describe, expect, test, vi} from "vitest";
-import {GET, POST} from "@/app/api/users/products/route";
+import {GET, POST} from "@/app/api/products/route";
 import {NextRequest} from "next/server";
 import {randomUUID} from "node:crypto";
 import {db, firebaseEmulator} from "@/lib/firebase";
@@ -64,12 +64,12 @@ describe('Users/Products API', () => {
             const product2 = { name: "Product 2", owner: userId };
             const product3 = { name: "Product 3", owner: userId };
             
-            const productsCollection = collection(db, 'users', userId, 'products');
+            const productsCollection = collection(db, 'products');
             await setDoc(doc(productsCollection, randomUUID()), product1);
             await setDoc(doc(productsCollection, randomUUID()), product2);
             await setDoc(doc(productsCollection, randomUUID()), product3);
             
-            const request = new NextRequest(`http://localhost:8080/api/users/products?userId=${userId}`);
+            const request = new NextRequest(`http://localhost:8080/api/products?userId=${userId}`);
             const response = await GET(request);
             expect(response.status).toBe(200);
             const data = await response.json();
@@ -78,9 +78,9 @@ describe('Users/Products API', () => {
         })
     });
     
-    describe("POST /api/users/products", () => {
+    describe("POST /api/products", () => {
         test("should return 400 if product name is not provided", async () => {
-            const request = new NextRequest('http://localhost:8080/api/users/products', {
+            const request = new NextRequest('http://localhost:8080/api/products', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({})
@@ -124,7 +124,7 @@ describe('Users/Products API', () => {
             expect(data.id).toBeDefined();
             
             // Verify the product was created in Firestore
-            const productDoc = await getDoc(doc(db,'users', productOwnerId, 'products', data.id));
+            const productDoc = await getDoc(doc(db,'products', data.id));
             expect(productDoc.exists()).toBe(true);
             expect(productDoc.data()?.name).toBe(productName);
             expect(productDoc.data()?.owner).toBe(productOwnerId);
@@ -163,12 +163,12 @@ describe('Users/Products API', () => {
             expect(data2.id).toBeDefined();
             
             // Verify the product was created in Firestore
-            const productDoc = await getDoc(doc(db,'users', productOwnerId, 'products', data.id));
+            const productDoc = await getDoc(doc(db, 'products', data.id));
             expect(productDoc.exists()).toBe(true);
             expect(productDoc.data()?.name).toBe(productName);
             expect(productDoc.data()?.owner).toBe(productOwnerId);
             
-            const productDoc2 = await getDoc(doc(db,'users', productOwnerId, 'products', data2.id));
+            const productDoc2 = await getDoc(doc(db, 'products', data2.id));
             expect(productDoc2.exists()).toBe(true);
             expect(productDoc2.data()?.name).toBe(productName2);
             expect(productDoc2.data()?.owner).toBe(productOwnerId);

@@ -2,9 +2,9 @@ import {randomUUID} from "node:crypto";
 
 export default abstract class Person{
     name: string;
-    private id: `${string}-${string}-${string}-${string}-${string}`;
+    id: `${string}-${string}-${string}-${string}-${string}`;
     
-    constructor(name:string) {
+    protected constructor(name:string) {
         this.name = name;
         this.id = randomUUID();
     }

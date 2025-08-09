@@ -1,23 +1,12 @@
 import {NextRequest} from 'next/server';
 import {collection, CollectionReference, doc, getDocs, setDoc} from "@firebase/firestore";
 import {db} from '@/lib/firebase';
-import Product from "@/app/api/users/products/product";
+import Product from "@/app/api/products/product";
 import Owner from "@/app/api/users/owner";
 
 const usersRef = collection(db, 'users');
 function getProductCollection(userId: string): CollectionReference<Record<string, string>> {
-    // 1. First, get a reference to the top-level 'users' collection.
-    // We specify the type using <User> for type-safety.
-    const usersCollection = collection(db, "users") as CollectionReference<Owner>;
-    
-    // 2. Next, get a reference to the specific user document using their ID.
-    // The type of this reference is DocumentReference<User>.
-    const userDocRef = doc(usersCollection, userId);
-    
-    // 3. Finally, get the nested 'products' collection from the user document reference.
-    // We specify the type <Product> to ensure all documents in this collection
-    // conform to the Product interface.
-    const productsCollection = collection(userDocRef, "products");
+    const productsCollection = collection(db, "products");
     
     // Return the type-safe collection reference.
     return productsCollection;
